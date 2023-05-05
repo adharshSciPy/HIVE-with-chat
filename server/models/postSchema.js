@@ -10,9 +10,10 @@ const PostSchema = new Schema({
     required: true,
   },
 
-  applied: {
-    type: Array
-  },
+  appliedUsers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
 
   title: {
     type: String,

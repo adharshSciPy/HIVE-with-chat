@@ -42,11 +42,13 @@ module.exports = {
   },
 
   getAllPost: async (req, res) => {
+    const { userId } = req.params
     try {
       const today = new Date();
       const query = {
         status: true,
-        date: { $gt: today }
+        date: { $gt: today },
+        appliedUsers: { $nin: [userId] }
       }
       const posts = await postSchema.find(query);
 
@@ -79,11 +81,9 @@ module.exports = {
   },
 
   getAllCertificates: async (req, res) => {
-    const { userId } = req.params
+    const { userId } = req.params;
     try {
-
       const certificates = await certificiateSchema.find({ studentId: userId })
-
       if (!certificates) {
         return res.status(400).json({ message: "No Certificates" });
       }
@@ -111,4 +111,22 @@ module.exports = {
       res.status(500).json({ message: "Server Error" });
     }
   },
+
+  applyPost: async (req, res) => {
+    const { postId, userId } = req.params;
+
+    try {
+      const findPost = await postSchema.findOne({ _id: postId });
+      if (!findPost) {
+        res.status(400).json({ message: 'Post not found' });
+      } else {
+        findPost.appliedUsers.push(userId);
+        await findPost.save();
+        res.status(200).json({ message: 'Successfully applied for post' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
 };

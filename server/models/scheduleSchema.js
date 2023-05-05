@@ -11,6 +11,11 @@ const ScheduleSchema = new Schema({
     required: true,
   },
 
+  appliedUsers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+
   time: {
     type: String,
     required: true,

@@ -16,6 +16,8 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -23,12 +25,28 @@ const theme = createTheme();
 
 export default function Posts() {
   const [cards, setCards] = React.useState([]);
-  React.useEffect(() => {
-    axios.get("http://localhost:5000/student/getAllPosts").then((res) => {
+  const userID = useSelector((state) => state.auth.user);
+  function getAllPost() {
+    axios.get(`http://localhost:5000/student/getAllPosts/${userID}`).then((res) => {
       setCards(res.data.posts);
       console.log(res.data.posts);
     });
+  }
+  React.useEffect(() => {
+    getAllPost()
   }, []);
+
+  const handleApply = (id) => {
+    console.log(id)
+    axios.post(`http://localhost:5000/student/applyPost/${id}/${userID}`)
+      .then((res) => {
+        console.log(res)
+        toast.success(res.data.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        getAllPost()
+      })
+  }
   return (
     <>
       <h2 style={{ textAlign: "center" }}>Posts</h2>
@@ -60,10 +78,10 @@ export default function Posts() {
                       <Typography gutterBottom variant="h5" component="h2">
                         {item.title}
                       </Typography>
-                      <Typography>{item.postType}</Typography>
+
                     </CardContent>
                     <CardActions>
-                      <Button size="small">Apply</Button>
+                      <Button size="small" onClick={() => handleApply(item._id)}>Apply</Button>
                     </CardActions>
                   </Card>
                 </Grid>

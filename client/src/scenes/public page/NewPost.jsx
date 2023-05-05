@@ -70,6 +70,7 @@ export default function NewPost() {
   const [price, setPrice] = React.useState("");
   const [date, setDate] = React.useState(now.toLocaleDateString());
   const [time, setTime] = React.useState(now.toLocaleDateString());
+  const [time2, setTime2] = React.useState(now.toLocaleDateString());
   const [location, setLocation] = React.useState("");
   const [meetLink, setMeetLink] = React.useState("");
   const [salary, setSalary] = React.useState("");
@@ -84,6 +85,10 @@ export default function NewPost() {
 
   const handleTime = (newValue) => {
     setTime(newValue);
+  };
+
+  const handleTime2 = (newValue) => {
+    setTime2(newValue);
   };
 
   const SingleFileChange = (e) => {
@@ -103,6 +108,7 @@ export default function NewPost() {
     data.append('salary', salary)
     data.append('date', date)
     data.append('time', time)
+    data.append('time', time2)
     console.log(data);
 
     axios
@@ -262,16 +268,18 @@ export default function NewPost() {
 
             {webinar ? (
               <>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <TimePicker
                     label="Time"
-                    onChange={(e) => setTime(e.target.value)}
+                    onChange={handleTime}
+                    value={time}
                     renderInput={(params) => (
                       <TextField
                         size="small"
                         sx={{ fontSize: "12px", mt: 1 }}
                         {...params}
                         fullWidth
+                        
                       />
                     )}
                   />
