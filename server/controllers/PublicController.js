@@ -95,16 +95,22 @@ module.exports = {
 
   // api to download pdf
   downloadPdf: async (req, res) => {
-    const { fileName } = req.body;
+    const { fileName } = req.params;
+    console.log(fileName)
     const pdf = `/server/uploads/${fileName}`;
     const file = `${__dirname}/${pdf}`;
-
+  
     try {
       if (!file) {
         res.status(400).json({ message: "Pdf Note Found" });
       }
-      res.status(200).json({ message: "Pdf Founded" });
-      res.download(file); // Set disposition and send it.
+      res.download(file, fileName, (err) => {
+        if (err) {
+          res.status(400).json({ message: "Server Error" });
+        } else {
+          res.set('Content-Type', 'application/pdf');
+        }
+      });
     } catch (err) {
       res.status(400).json({ message: "Server Error" });
     }
@@ -146,7 +152,7 @@ module.exports = {
     console.log("post image file" + JSON.stringify(req.file))
 
     const file = {
-      fileName: req.file.originalname,
+      fileName: req.file.filename,
       filePath: req.file.path,
       fileType: req.file.mimetype,
       fileSize: fileSizeFormatter(req.file.size, 2) // 0.00
@@ -214,10 +220,11 @@ module.exports = {
   uploadCertificate: async (req, res) => {
     const { studentId, title } = req.body
     const file = {
-      fileName: req.file.originalname,
+      orignalName: req.file.originalname,
+      fileName: req.file.filename,
       filePath: req.file.path,
-      fileType: req.file.mimetype,
-      fileSize: fileSizeFormatter(req.file.size, 2) // 0.00
+      // fileType: req.file.mimetype,
+      // fileSize: fileSizeFormatter(req.file.size, 2) // 0.00
     };
 
     try {

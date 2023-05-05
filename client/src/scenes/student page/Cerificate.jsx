@@ -17,34 +17,18 @@ function Cerificate() {
             })
     }, [])
 
-    // const dispatch = useDispatch();
-    // function levelSetter() {
-    //     if (certificates?.length >= 8) {
-    //         dispatch(setDaimond());
-    //         dispatch(unSetSilver());
-    //         dispatch(unSetGold());
-    //         console.log('1')
-    //     }
-    //     else if (certificates?.length >= 4 && certificates?.length < 8)  {
-    //         dispatch(setGold());
-    //         dispatch(unSetDaimond());
-    //         dispatch(unSetSilver());
-    //         console.log('2')
-    //     }
-    //     else if (certificates?.length >= 0 && certificates?.length < 4) {
-    //         dispatch(setSilver());
-    //         dispatch(unSetDaimond());
-    //         dispatch(unSetGold());
-    //         console.log('3')
-    //     }
-    //     else {
-    //         console.log('failed to level up')
-    //     }
-    // }
 
-    // React.useEffect(() => {
-    //     levelSetter()
-    // }, [])
+
+    // download pdf
+    const handleDownload = async (fileName) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/public/downloadPdf/${fileName}`, { responseType: 'blob' });
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+            window.open(url, '_blank');
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
 
 
@@ -64,15 +48,16 @@ function Cerificate() {
                                     }}
                                 >
 
-                                    {/* <CardMedia
+                                    <CardMedia
                                         sx={{
-                                            height: "10rem",
+                                            height: "5rem",
+                                            width: '5rem'
                                         }}
                                         component="img"
-                                        // image={`http://localhost:5000/${item.imageName.filePath}`}
-                                        image={`http://localhost:5000/${item.imageName.filePath}`}
-                                        alt={item.imageName.fileName}
-                                    /> */}
+
+                                        image={`https://www.computerhope.com/jargon/p/pdf.png`}
+
+                                    />
                                     <CardContent sx={{ flexGrow: 1 }}>
                                         <Typography gutterBottom variant="h5" component="h2">
                                             {item.title}
@@ -80,7 +65,7 @@ function Cerificate() {
 
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small">Download</Button>
+                                        <Button size="small" variant='outlined' onClick={() => handleDownload(item.certificate.fileName)}>Download</Button>
                                     </CardActions>
                                 </Card>
                             </Grid>

@@ -8,7 +8,7 @@ router.post("/scheduleClass", upload.single('file'), publicController.scheduleCl
 router.post("/post", upload.single('file'), publicController.post);
 router.get("/getScheduledClass/:id", publicController.getScheduledClass);
 router.get("/getClassHistory/:id", publicController.getClassHistory);
-router.post("/downloadPdf", publicController.downloadPdf);
+router.get("/downloadPdf/:fileName", publicController.downloadPdf);
 router.delete("/deleteClass/:id", publicController.deleteClass);
 router.put("/updateStatus/:id", publicController.updateStatus);
 router.get('/getAllPosts/:id', publicController.getAllPost);
