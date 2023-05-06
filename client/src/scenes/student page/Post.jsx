@@ -70,9 +70,9 @@ export default function Posts() {
                         height: "10rem",
                       }}
                       component="img"
-                      image={`http://localhost:5000/server/uploads/${item.imageName.fileName}`}
+                      image={`http://localhost:5000${item.imageName}`}
                       // image={`http://localhost:5000/server/uploads/2023-05-05T11-32-06.481Z-batch.png`}
-                      alt={item.imageName.fileName}
+                      alt={`http://localhost:5000${item.imageName}`}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography gutterBottom variant="h5" component="h2">

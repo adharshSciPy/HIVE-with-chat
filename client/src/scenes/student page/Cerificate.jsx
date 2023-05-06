@@ -22,14 +22,19 @@ function Cerificate() {
     // download pdf
     const handleDownload = async (fileName) => {
         try {
-            const response = await axios.get(`http://localhost:5000/public/downloadPdf/${fileName}`, { responseType: 'blob' });
-            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-            window.open(url, '_blank');
-        } catch (err) {
-            console.log(err);
+            const response = await axios.get(`http://localhost:5000/public/downloadPdf${fileName}`, { responseType: 'blob' });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading certificate:', error);
         }
     };
-
 
 
     return (
@@ -65,7 +70,7 @@ function Cerificate() {
 
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" variant='outlined' onClick={() => handleDownload(item.certificate.fileName)}>Download</Button>
+                                        <Button size="small" variant='outlined' onClick={() => handleDownload(item.certificate)}>Download</Button>
                                     </CardActions>
                                 </Card>
                             </Grid>

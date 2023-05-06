@@ -3,7 +3,9 @@ const PostSchema = require("../models/postSchema");
 const userSchema = require("../models/userSchema");
 const certificate = require("../models/certificate")
 const jwt = require("jsonwebtoken");
-const fileSizeFormatter = require('./fileformat')
+const fs = require("fs");
+const path = require("path");
+// const fileSizeFormatter = require('./fileformat')
 
 
 
@@ -95,25 +97,15 @@ module.exports = {
 
   // api to download pdf
   downloadPdf: async (req, res) => {
-    const { fileName } = req.params;
-    console.log(fileName)
-    const pdf = `/server/uploads/${fileName}`;
-    const file = `${__dirname}/${pdf}`;
-  
-    try {
-      if (!file) {
-        res.status(400).json({ message: "Pdf Note Found" });
+    const fileName = req.params.fileName;
+    const filePath = path.join(__dirname, "../uploads", fileName);
+
+    fs.access(filePath, fs.F_OK, (err) => {
+      if (err) {
+        return res.status(404).json({ message: "File not found" });
       }
-      res.download(file, fileName, (err) => {
-        if (err) {
-          res.status(400).json({ message: "Server Error" });
-        } else {
-          res.set('Content-Type', 'application/pdf');
-        }
-      });
-    } catch (err) {
-      res.status(400).json({ message: "Server Error" });
-    }
+      res.download(filePath);
+    });
   },
 
   // api to update status of schedule class to history class
@@ -149,16 +141,6 @@ module.exports = {
       salary,
     } = req.body;
 
-    console.log("post image file" + JSON.stringify(req.file))
-
-    const file = {
-      fileName: req.file.filename,
-      filePath: req.file.path,
-      fileType: req.file.mimetype,
-      fileSize: fileSizeFormatter(req.file.size, 2) // 0.00
-    };
-
-
     try {
       const post = await PostSchema.create({
         ownerID: userID,
@@ -170,7 +152,7 @@ module.exports = {
         company,
         place,
         salary,
-        imageName: [file], // push file object to array
+        imageName: req.file ? req.file.filename : null, // push file object to array
         status: false,
       });
 
@@ -219,20 +201,13 @@ module.exports = {
 
   uploadCertificate: async (req, res) => {
     const { studentId, title } = req.body
-    const file = {
-      orignalName: req.file.originalname,
-      fileName: req.file.filename,
-      filePath: req.file.path,
-      // fileType: req.file.mimetype,
-      // fileSize: fileSizeFormatter(req.file.size, 2) // 0.00
-    };
 
     try {
       const addCertificate = await certificate.create(
         {
           title: title,
           studentId: studentId,
-          certificate: file
+          certificate: req.file ? req.file.filename : null,
         }
       )
 

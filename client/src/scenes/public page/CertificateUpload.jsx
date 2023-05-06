@@ -75,7 +75,7 @@ export default function CertificateUpload() {
                   <Grid item xs={12}>
                      <TextField
                         variant="outlined"
-                        label="Select Student"
+                        label="Title"
                         name="Title"
                         sx={{ width: "100%" }}
                         onChange={(e) => setTitle(e.target.value)}

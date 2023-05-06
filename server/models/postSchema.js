@@ -50,7 +50,7 @@ const PostSchema = new Schema({
     type: Boolean
   },
 
-  imageName : [Object],
+  imageName : String,
 
   createdAt: { type: Date, default: Date.now },
 });

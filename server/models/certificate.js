@@ -14,8 +14,8 @@ const Certificate = new Schema({
     },
 
     certificate: {
-        type: Array,
-        required: true,
+        type: String,
+        // required: true,
     }
 }, { timestamps: true });
 
