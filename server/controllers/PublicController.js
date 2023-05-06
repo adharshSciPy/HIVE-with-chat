@@ -12,15 +12,8 @@ const path = require("path");
 module.exports = {
   scheduleClass: async (req, res, next) => {
     const { title, date, time, meetLink, userID } = req.body;
-    console.log(req.file);
 
     try {
-      const file = {
-        fileName: req.file.originalname,
-        filePath: req.file.path,
-        fileType: req.file.mimetype,
-        fileSize: fileSizeFormatter(req.file.size, 2) // 0.00
-      };
 
       const scheduleData = await ScheduleSchema.create({
         ownerID: userID,
@@ -28,7 +21,7 @@ module.exports = {
         time,
         date,
         meetLink,
-        pdfName: file,
+        pdfName: req.file ? req.file.filename : null,
         status: true,
       });
       if (!scheduleData) {
@@ -97,15 +90,17 @@ module.exports = {
 
   // api to download pdf
   downloadPdf: async (req, res) => {
-    const fileName = req.params.fileName;
-    const filePath = path.join(__dirname, "../uploads", fileName);
-
-    fs.access(filePath, fs.F_OK, (err) => {
-      if (err) {
-        return res.status(404).json({ message: "File not found" });
+    try {
+      const cert = await certificate.findById(req.params.id);
+      if (!cert) {
+        return res.status(404).send('Certificate not found');
       }
-      res.download(filePath);
-    });
+      const filePath = path.join(__dirname, '../uploads/', cert.certificate);
+      res.download(filePath, cert.title + '.pdf');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    }
   },
 
   // api to update status of schedule class to history class

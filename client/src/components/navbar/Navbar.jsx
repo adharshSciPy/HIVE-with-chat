@@ -278,9 +278,12 @@ function DrawerAppBar(props) {
             HIVE
           </Typography>
           {
-            isAuthenticated && <Typography variant="subtitle1 " color="white" sx={{ mr: '20rem' }}>
-              Welcome, {userName}
-            </Typography>
+            isAuthenticated &&
+            <Box sx={{ display: { xs: "none", lg: "block" } }}>
+              <Typography variant="subtitle1 " color="white" sx={{ mr: '20rem' }}>
+                Welcome, {userName}
+              </Typography>
+            </Box>
           }
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
@@ -335,13 +338,16 @@ function DrawerAppBar(props) {
                 );
               })}
             {isAuthenticated && (
-              <Button
-                startIcon={<LogoutIcon />}
-                onClick={handleLogout}
-                sx={{ color: "#fff", ml: 4 }}
-              >
-                Logout
-              </Button>
+              <Box sx={{ display: { md: "none", } }}>
+                <Button
+                  startIcon={<LogoutIcon />}
+                  onClick={handleLogout}
+                  sx={{ color: "#fff", ml: 4, }}
+                >
+                  Logout
+                </Button>
+              </Box>
+
             )}
           </Box>
         </Toolbar>
@@ -366,7 +372,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </Box>
-    </Box>
+    </Box >
   );
 }
 

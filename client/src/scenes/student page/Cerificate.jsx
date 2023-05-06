@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { setSilver, setGold, setDaimond, unSetSilver, unSetGold, unSetDaimond } from '../../store/auth';
 import { useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
 
 function Cerificate() {
     const [certificates, setCertificates] = React.useState([])
@@ -20,27 +21,44 @@ function Cerificate() {
 
 
     // download pdf
-    const handleDownload = async (fileName) => {
+    const handleDownload = async (item) => {
         try {
-            const response = await axios.get(`http://localhost:5000/public/downloadPdf${fileName}`, { responseType: 'blob' });
-            const url = window.URL.createObjectURL(new Blob([response.data]));
+            console.log(item._id)
+            console.log(item.title)
+            const res = await fetch(`http://localhost:5000/public/downloadPdf/${item._id}`);
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', fileName);
+            link.setAttribute('download', `${item.title}.pdf`);
             document.body.appendChild(link);
             link.click();
-            link.remove();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error('Error downloading certificate:', error);
+            if (res) {
+                toast.success('Downloaded Succesfully', {
+                    position: toast.POSITION.TOP_CENTER,
+                });
+            }
         }
-    };
+        catch (err) {
+            console.error(err);
+        };
+    }
 
+    const handleView = async (item) => {
+        try {
+            const res = await fetch(`http://localhost:5000/public/downloadPdf/${item._id}`);
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+            window.open(url);
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h5" color="initial">My Certificates</Typography>
-            <Grid container spacing={4}>
+            <Typography variant="h5" color="secondary" sx={{ fontWeight: 500 }}>My Certificates</Typography>
+            <Grid container spacing={4} sx={{ mt: 2 }}>
                 {
                     certificates?.map((item, val) => {
                         return (
@@ -64,13 +82,15 @@ function Cerificate() {
 
                                     />
                                     <CardContent sx={{ flexGrow: 1 }}>
-                                        <Typography gutterBottom variant="h5" component="h2">
+                                        <Typography gutterBottom variant="h6" >
                                             {item.title}
                                         </Typography>
 
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" variant='outlined' onClick={() => handleDownload(item.certificate)}>Download</Button>
+
+                                        <Button size="small" variant='outlined' onClick={() => handleDownload(item)}>Download</Button>
+                                        <Button size="small" variant='contained' onClick={() => handleView(item)}>View</Button>
                                     </CardActions>
                                 </Card>
                             </Grid>

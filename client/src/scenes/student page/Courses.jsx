@@ -21,9 +21,7 @@ export default function ControlledAccordions() {
   const getData = async () => {
     await axios.get(`http://localhost:5000/student/getAllCertificates/${userID}`)
       .then((res) => {
-        console.log(res.data.certificates)
         setCertificates(res.data.certificates)
-        console.log(certificates)
       })
   }
   React.useEffect(() => {
@@ -32,24 +30,21 @@ export default function ControlledAccordions() {
 
   const dispatch = useDispatch();
   function levelSetter() {
-    console.log(certificates?.length)
     if (certificates?.length >= 8) {
       dispatch(setDaimond());
       dispatch(unSetSilver());
       dispatch(unSetGold());
-      console.log('d')
+
     }
     else if (certificates?.length >= 4 && certificates?.length < 8) {
       dispatch(setGold());
       dispatch(unSetDaimond());
       dispatch(unSetSilver());
-      console.log('g')
     }
     else if (certificates?.length >= 0 && certificates?.length < 4) {
       dispatch(setSilver());
       dispatch(unSetDaimond());
       dispatch(unSetGold());
-      console.log('s')
     }
     else {
       console.log('failed to level up')
@@ -68,9 +63,7 @@ export default function ControlledAccordions() {
   const [expanded, setExpanded] = React.useState(1);
   const [accordionData, setAccordionData] = React.useState([]);
 
-  React.useEffect(() => {
-    console.log(accordionData.length)
-  }, [])
+
 
   const handleChange = (panel) => (event, isExpanded) => {
     event.preventDefault();
@@ -85,7 +78,6 @@ export default function ControlledAccordions() {
       .then((res) => {
         console.log(res);
         setAccordionData(res.data.scheduledClass);
-        console.log(accordionData.length)
       })
       .catch((err) => console.log(err));
   };
@@ -102,6 +94,19 @@ export default function ControlledAccordions() {
     setSelectedPublic(newSelectedPublic);
     AccordionData(newSelectedPublic);
   };
+
+
+  const handleView = async (item) => {
+    try {
+      console.log(item)
+      const res = await fetch(`http://localhost:5000/public/downloadPdf/${item._id}`);
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+      window.open(url);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <Container component="main" maxWidth="md">
@@ -179,7 +184,9 @@ export default function ControlledAccordions() {
                       >
                         {item.meetLink}
                       </Button>
+
                     </a>
+                    <Button size="small" variant='contained' onClick={() => handleView(item)}>View</Button>
                   </Box>
                 </Stack>
               </AccordionDetails>

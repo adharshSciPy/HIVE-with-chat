@@ -49,9 +49,9 @@ export default function Posts() {
   }
   return (
     <>
-      <h2 style={{ textAlign: "center" }}>Posts</h2>
       <main>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <Container smaxWidth="md">
+          <Typography variant="h5" color="secondary" sx={{ mb: 3, fontWeight: 500 }}>My Certificates</Typography>
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards?.map((item, val) => {
