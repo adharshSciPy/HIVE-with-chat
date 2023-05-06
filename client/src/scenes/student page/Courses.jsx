@@ -14,6 +14,7 @@ import axios from "axios";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import { setSilver, setGold, setDaimond, unSetSilver, unSetGold, unSetDaimond } from '../../store/auth';
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 export default function ControlledAccordions() {
   const [certificates, setCertificates] = React.useState([])
@@ -159,7 +160,7 @@ export default function ControlledAccordions() {
                 <Typography
                   sx={{ width: "33%", color: "text.secondary", flexShrink: 0 }}
                 >
-                  {item.date}
+                  {moment(item.date).format('MM-DD-YYYY')}
                 </Typography>
                 <Typography sx={{ color: "text.secondary" }}>
                   {item.time}
@@ -180,13 +181,13 @@ export default function ControlledAccordions() {
                     >
                       <Button
                         startIcon={<AddLinkIcon />}
-                        sx={{ color: "text.secondary" }}
+                        sx={{ color: "text.primary" }}
                       >
                         {item.meetLink}
                       </Button>
 
                     </a>
-                    <Button size="small" variant='contained' onClick={() => handleView(item)}>View</Button>
+                    <Button size="small" variant='contained' onClick={() => handleView(item)}>View Notes</Button>
                   </Box>
                 </Stack>
               </AccordionDetails>
@@ -194,6 +195,13 @@ export default function ControlledAccordions() {
           );
         })}
       </Box>
+      {
+        accordionData.length === 0 && (
+          <Box sx={{ height: '60vh', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >Please select a public form dropdown</Box>
+        )
+      }
     </Container>
+    
   );
 }

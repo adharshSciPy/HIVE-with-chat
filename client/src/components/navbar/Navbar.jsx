@@ -130,7 +130,7 @@ function DrawerAppBar(props) {
   };
 
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(true);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -147,7 +147,7 @@ function DrawerAppBar(props) {
       }}
     >
       <Typography variant="h6" color="primary" sx={{ my: 2, fontWeight: 700 }}>
-        Hive
+        HIVE
       </Typography>
       <Divider />
 
@@ -256,27 +256,70 @@ function DrawerAppBar(props) {
       {/* <CssBaseline /> */}
       <AppBar component="nav" sx={{ mb: 3 }}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{
-              mr: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600 } }}
-          >
-            HIVE
-          </Typography>
+          {
+            isAuthenticated &&
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                mr: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          }
+
+          {!isAuthenticated && (
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600, cursor: 'pointer' } }}
+              onClick={() => navigate('/')}
+            >
+              HIVE
+            </Typography>
+          )}
+
+          {role === "admin" && (
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600, cursor: 'pointer' } }}
+              onClick={() => navigate('/admin')}
+            >
+              HIVE
+            </Typography>
+          )}
+
+          {
+            role === 'public' &&
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600 } }}
+              onClick={() => navigate('/public')}
+            >
+              HIVE
+            </Typography>
+          }
+
+          {
+            role === 'student' &&
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600 } }}
+              onClick={() => navigate('/student')}
+            >
+              HIVE
+            </Typography>
+          }
+
           {
             isAuthenticated &&
             <Box sx={{ display: { xs: "none", lg: "block" } }}>
@@ -338,16 +381,13 @@ function DrawerAppBar(props) {
                 );
               })}
             {isAuthenticated && (
-              <Box sx={{ display: { md: "none", } }}>
-                <Button
-                  startIcon={<LogoutIcon />}
-                  onClick={handleLogout}
-                  sx={{ color: "#fff", ml: 4, }}
-                >
-                  Logout
-                </Button>
-              </Box>
-
+              <Button
+                startIcon={<LogoutIcon />}
+                onClick={handleLogout}
+                sx={{ color: "#fff", ml: 4, }}
+              >
+                Logout
+              </Button>
             )}
           </Box>
         </Toolbar>

@@ -4,6 +4,7 @@ const studentController = require("../controllers/StudentController");
 
 router.get("/getAllPublic", studentController.getAllPublic);
 router.get("/getAllPosts/:userId", studentController.getAllPost);
+router.get("/getAppliedPosts/:userId", studentController.getAppliedPost);
 router.get("/getAllCertificates/:userId", studentController.getAllCertificates);
 router.get(
   "/getScheduledClassById/:id",

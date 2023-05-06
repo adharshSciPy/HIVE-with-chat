@@ -18,12 +18,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import moment from 'moment';
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export default function Posts() {
+  const navigate = useNavigate()
   const [cards, setCards] = React.useState([]);
   const userID = useSelector((state) => state.auth.user);
   function getAllPost() {
@@ -51,7 +54,11 @@ export default function Posts() {
     <>
       <main>
         <Container smaxWidth="md">
-          <Typography variant="h5" color="secondary" sx={{ mb: 3, fontWeight: 500 }}>My Certificates</Typography>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+            <Typography variant="h5" color="secondary" sx={{ mb: 3, fontWeight: 500 }}>Posts</Typography>
+            <Button variant="outlined" onClick={() => navigate('/student/post/appliedPost')}>Applied Post</Button>
+          </Stack>
+
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards?.map((item, val) => {
@@ -59,15 +66,18 @@ export default function Posts() {
                 <Grid item key={val} xs={12} sm={6} md={4}>
                   <Card
                     sx={{
-                      height: "100%",
+                      height: "20rem",
+                      maxWidth: '30rem',
                       display: "flex",
                       flexDirection: "column",
+                      boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
                     }}
                   >
 
                     <CardMedia
                       sx={{
-                        height: "10rem",
+                        height: "70%",
+                        width: '100%'
                       }}
                       component="img"
                       image={`http://localhost:5000${item.imageName}`}
@@ -75,14 +85,20 @@ export default function Posts() {
                       alt={`http://localhost:5000${item.imageName}`}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {item.title}
-                      </Typography>
+                      <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <Typography variant="h6" color="secondary">
+                          {item.title}
+                        </Typography>
+                        <Button size="small" onClick={() => handleApply(item._id)} variant="contained">Apply</Button>
+                      </Stack>
 
+                      <Typography variant="body2" color="secondary">
+                        {item.postType}
+                      </Typography>
+                      <Typography variant="body2" color="primary">
+                        {moment(item.date).format('MM-DD-YYYY')}
+                      </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small" onClick={() => handleApply(item._id)}>Apply</Button>
-                    </CardActions>
                   </Card>
                 </Grid>
               );

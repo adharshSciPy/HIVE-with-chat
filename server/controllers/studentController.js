@@ -3,6 +3,7 @@ const ScheduleSchema = require("../models/scheduleSchema");
 const postSchema = require("../models/postSchema");
 const certificateSchema = require("../models/certificate");
 const mongoose = require("mongoose");
+const moment = require('moment')
 
 module.exports = {
   getAllPublic: async (req, res) => {
@@ -62,6 +63,43 @@ module.exports = {
           postType: post.postType,
           price: post.price,
           date: post.date,
+          title: post.title,
+          meetLink: post.meetLink,
+          place: post.place,
+          salary: post.salary,
+          status: post.status,
+          description: post.description,
+          imageName: post.imageName ? `/uploads/${post.imageName}` : null
+        };
+      });
+      res.status(200).json({ message: "Success", posts: updatePost });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server Error" });
+    }
+  },
+
+
+  getAppliedPost: async (req, res) => {
+    const { userId } = req.params
+    try {
+      const today = new Date();
+      const query = {
+        status: true,
+        appliedUsers: { $in: [userId] }
+      }
+      const posts = await postSchema.find(query);
+
+      if (!posts) {
+        return res.status(400).json({ message: "No posts" });
+      }
+      const updatePost = posts.map(post => {
+        return {
+          _id: post._id,
+          appliedUsers: post.appliedUsers,
+          postType: post.postType,
+          price: post.price,
+          date: moment(post.date).format('MM-DD-YYYY'),
           title: post.title,
           meetLink: post.meetLink,
           place: post.place,
