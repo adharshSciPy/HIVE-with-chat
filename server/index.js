@@ -22,9 +22,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 // app.use('/public', express.static(__dirname + '/uploads'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.get("/", (req, res) => {
-  console.log("backend ready");
-});
 
 app.use("/user", userRouter);
 app.use("/public", publicRouter);

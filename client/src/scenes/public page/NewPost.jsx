@@ -63,7 +63,7 @@ export default function NewPost() {
       setWebinar(false);
       setInternship(false);
     }
-  }, [handleChange])
+  }, [handleChange]);
 
   const now = new Date();
   const [title, setTitle] = React.useState("");
@@ -76,8 +76,7 @@ export default function NewPost() {
   const [salary, setSalary] = React.useState("");
   const [company, setCompany] = React.useState("");
   const [place, setPlace] = React.useState("");
-  const [singleFile, setSingleFile] = React.useState('');
-
+  const [singleFile, setSingleFile] = React.useState("");
 
   const handleDate = (newValue) => {
     setDate(newValue);
@@ -93,22 +92,22 @@ export default function NewPost() {
 
   const SingleFileChange = (e) => {
     setSingleFile(e.target.files[0]);
-  }
+  };
 
   const HandleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData();
 
-    data.append('file', singleFile);
-    data.append('userID', userID)
-    data.append('title', title)
-    data.append('postType', postType)
-    data.append('meetLink', meetLink)
-    data.append('company', company)
-    data.append('salary', salary)
-    data.append('date', date)
-    data.append('time', time)
-    data.append('time', time2)
+    data.append("file", singleFile);
+    data.append("userID", userID);
+    data.append("title", title);
+    data.append("postType", postType);
+    data.append("meetLink", meetLink);
+    data.append("company", company);
+    data.append("salary", salary);
+    data.append("date", date);
+    data.append("time", time);
+    data.append("time", time2);
     console.log(data);
 
     axios
@@ -125,7 +124,7 @@ export default function NewPost() {
         setSalary("");
         setCompany("");
         setPlace("");
-        setSingleFile("")
+        setSingleFile("");
       })
       .catch((err) => {
         toast.error(err.message, {
@@ -241,7 +240,6 @@ export default function NewPost() {
                         sx={{ fontSize: "12px", mt: 1 }}
                         {...params}
                         fullWidth
-                        
                       />
                     )}
                   />
@@ -268,7 +266,7 @@ export default function NewPost() {
 
             {webinar ? (
               <>
-                 <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <TimePicker
                     label="Time"
                     onChange={handleTime}
@@ -279,7 +277,6 @@ export default function NewPost() {
                         sx={{ fontSize: "12px", mt: 1 }}
                         {...params}
                         fullWidth
-                        
                       />
                     )}
                   />
@@ -363,9 +360,12 @@ export default function NewPost() {
               variant="outlined"
               sx={{ minWidth: "100%", margin: ".5rem 0" }}
             >
-              <input type="file" className="file" onChange={(e) => SingleFileChange(e)} />
+              <input
+                type="file"
+                className="file"
+                onChange={(e) => SingleFileChange(e)}
+              />
             </Button>
-
 
             <Button
               type="submit"
