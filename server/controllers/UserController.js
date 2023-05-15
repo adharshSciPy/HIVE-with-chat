@@ -26,6 +26,7 @@ module.exports = {
         dob,
         college,
         course,
+        imageName: req.file ? req.file.filename : null, // push file object to array
       });
       res.status(200).json({ message: "User added to mongodb succesfully" });
       next();

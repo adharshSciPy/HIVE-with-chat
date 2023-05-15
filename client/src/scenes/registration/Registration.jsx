@@ -137,6 +137,11 @@ export default function SignUp() {
     return errors;
   };
 
+  const [singleFile, setSingleFile] = React.useState('');
+  const SingleFileChange = (e) => {
+    setSingleFile(e.target.files[0]);
+  }
+
   // forms submission
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -145,17 +150,20 @@ export default function SignUp() {
     if (Object.keys(errors).length === 0) {
       console.log('No errors')
 
+      const data = new FormData();
+
+      data.append('file', singleFile)
+      data.append("fullName", formData.fullName)
+      data.append("role", role,)
+      data.append("email", formData.email,)
+      data.append("password", formData.password,)
+      data.append("gender", formData.gender,)
+      data.append("dob", formData.dob,)
+      data.append("college", formData.college,)
+      data.append("course", formData.course,)
+
       // submit the form
-      axios.post('http://localhost:5000/user/register', {
-        fullName: formData.fullName,
-        role,
-        email: formData.email,
-        password: formData.password,
-        gender: formData.gender,
-        dob: formData.dob,
-        college: formData.college,
-        course: formData.course,
-      })
+      axios.post('http://localhost:5000/user/register', data)
         .then((res) => {
           toast.success(res.data.message, {
             position: toast.POSITION.TOP_CENTER,
@@ -193,7 +201,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" enctype="multipart/form-data" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -325,6 +333,19 @@ export default function SignUp() {
                       error={!!formErrors.course}
                       helperText={formErrors.course}
                     />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Button
+                      component="label"
+                      margin="normal"
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      sx={{ minWidth: "100%", margin: ".5rem 0" }}
+                    >
+                      <input type="file" className="file" onChange={(e) => SingleFileChange(e)} />
+                    </Button>
                   </Grid>
                 </>
               ) : ''

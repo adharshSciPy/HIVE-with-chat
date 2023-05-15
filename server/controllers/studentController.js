@@ -156,5 +156,34 @@ module.exports = {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
     }
-  }
+  },
+
+
+  getProfile: async (req, res) => {
+    const { userId } = req.params
+    const idString = userId.toString();
+
+    if (!mongoose.Types.ObjectId.isValid(idString)) {
+      return res.status(400).send("Invalid ID");
+    }
+    try {
+      const student = await UserSchema.find({ _id: idString })
+
+      const profile = {
+        fullName: student[0].fullName,
+        college: student[0].college,
+        course: student[0].course,
+        imageName: student[0].imageName ? `/uploads/${student[0].imageName}` : null
+      }
+      if (!student) {
+        res.status(400).json({ message: "Profile Not Found" })
+      }
+      res.status(200).json({ message: "User Found", profile })
+    }
+    catch (err) {
+      console.log(err)
+      res.status(500).json({ message: "Server Error" });
+    }
+
+  },
 };

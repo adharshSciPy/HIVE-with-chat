@@ -12,49 +12,11 @@ import Select from "@mui/material/Select";
 import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import AddLinkIcon from "@mui/icons-material/AddLink";
-import { setSilver, setGold, setDaimond, unSetSilver, unSetGold, unSetDaimond } from '../../store/auth';
-import { useDispatch, useSelector } from "react-redux";
+
 import moment from "moment";
 
 export default function ControlledAccordions() {
-  const [certificates, setCertificates] = React.useState([])
-  const userID = useSelector((state) => state.auth.user);
-  const getData = async () => {
-    await axios.get(`http://localhost:5000/student/getAllCertificates/${userID}`)
-      .then((res) => {
-        setCertificates(res.data.certificates)
-      })
-  }
-  React.useEffect(() => {
-    getData()
-  }, [])
-
-  const dispatch = useDispatch();
-  function levelSetter() {
-    if (certificates?.length >= 8) {
-      dispatch(setDaimond());
-      dispatch(unSetSilver());
-      dispatch(unSetGold());
-
-    }
-    else if (certificates?.length >= 4 && certificates?.length < 8) {
-      dispatch(setGold());
-      dispatch(unSetDaimond());
-      dispatch(unSetSilver());
-    }
-    else if (certificates?.length >= 0 && certificates?.length < 4) {
-      dispatch(setSilver());
-      dispatch(unSetDaimond());
-      dispatch(unSetGold());
-    }
-    else {
-      console.log('failed to level up')
-    }
-  }
-
-  React.useEffect(() => {
-    levelSetter()
-  }, [getData()])
+ 
 
 
   const [publics, setPublics] = React.useState([]);
@@ -202,6 +164,6 @@ export default function ControlledAccordions() {
         )
       }
     </Container>
-    
+
   );
 }

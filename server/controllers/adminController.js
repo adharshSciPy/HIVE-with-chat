@@ -28,7 +28,7 @@ module.exports = {
   },
 
   getAllPosts: async (req, res) => {
-    const postLists = await PostSchema.find({status: false});
+    const postLists = await PostSchema.find({ status: false });
 
     try {
       if (!postLists) {
@@ -49,6 +49,25 @@ module.exports = {
       }
       res.status(200).json({ message: "Posts Found", postLists });
     } catch (err) {
+      res.status(500).json({ message: "Server Error" });
+    }
+  },
+
+  getCount: async (req, res) => {
+    try {
+      const studentCount = await UserSchema.countDocuments({ role: "student" })
+      const publicCount = await UserSchema.countDocuments({ role: "public" })
+      const postCount = await PostSchema.countDocuments({ status: false })
+
+      if (!studentCount && !publicCount && !postCount) {
+        res.status(400).json({ message: 'Api failed' })
+      }
+      else {
+        res.status(201).json({ message: "All feilds count returned", publicCount, studentCount, postCount })
+      }
+    }
+
+    catch (err) {
       res.status(500).json({ message: "Server Error" });
     }
   },

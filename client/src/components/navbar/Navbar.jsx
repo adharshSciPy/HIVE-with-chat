@@ -21,6 +21,7 @@ import Cookies from "js-cookie";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Card, CardMedia } from "@mui/material";
 import { toast } from "react-toastify";
+import axios from "axios"
 
 const drawerWidth = 240;
 
@@ -119,6 +120,20 @@ function DrawerAppBar(props) {
     }
   ];
 
+  // get student profile detail
+  const userID = useSelector((state) => state.auth.user);
+  const [profile, setProfile] = React.useState()
+  React.useEffect(() => {
+    axios.get(`http://localhost:5000/student/getProfile/${userID}`)
+      .then((res) => {
+        setProfile(res.data.profile)
+        console.log(profile)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [role === "student"])
+
   // const Token = Cookies.get('Token')
   const handleLogout = () => {
     dispatch(logout());
@@ -167,15 +182,15 @@ function DrawerAppBar(props) {
             <CardMedia
               component="img"
               sx={{ width: "100%", height: "100%" }}
-              image="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"
-              alt="Live from space album cover"
+              image={profile?.imageName ? `http://localhost:5000${profile?.imageName}` : 'https://img.freepik.com/premium-vector/male-profile-flat-blue-simple-icon-with-long-shadowxa_159242-10092.jpg'}
+              alt={profile?.imageName}
             />
           </Card>
           <Typography variant="body1" color="primary" sx={{ fontWeight: 500 }}>
             {userName}
           </Typography>
           <Typography variant="caption" sx={{ fontWeight: 500 }}>
-            Bsc Computer Science
+            {profile?.college}
           </Typography>
 
           <Button

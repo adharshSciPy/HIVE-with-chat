@@ -21,9 +21,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import moment from 'moment';
 
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-const theme = createTheme();
 
 export default function Posts() {
   const navigate = useNavigate()

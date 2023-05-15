@@ -6,6 +6,7 @@ router.get("/getAllPublic", studentController.getAllPublic);
 router.get("/getAllPosts/:userId", studentController.getAllPost);
 router.get("/getAppliedPosts/:userId", studentController.getAppliedPost);
 router.get("/getAllCertificates/:userId", studentController.getAllCertificates);
+router.get("/getProfile/:userId", studentController.getProfile);
 router.get(
   "/getScheduledClassById/:id",
   studentController.getScheduledClassById

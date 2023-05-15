@@ -39,6 +39,7 @@ const UserSchema = new Schema({
         type: String
     },
     certficate: [Object],
+      imageName : String,
     createdAt: { type: Date, default: Date.now }
 })
 
