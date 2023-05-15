@@ -1,20 +1,16 @@
 const ScheduleSchema = require("../models/scheduleSchema");
 const PostSchema = require("../models/postSchema");
 const userSchema = require("../models/userSchema");
-const certificate = require("../models/certificate")
+const certificate = require("../models/certificate");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-// const fileSizeFormatter = require('./fileformat')
-
-
 
 module.exports = {
-  scheduleClass: async (req, res, next) => {
+  scheduleClass: async (req, res) => {
     const { title, date, time, meetLink, userID } = req.body;
 
     try {
-
       const scheduleData = await ScheduleSchema.create({
         ownerID: userID,
         title,
@@ -27,15 +23,12 @@ module.exports = {
       if (!scheduleData) {
         res.status(400).json({ message: "Posting Failed" });
       }
-      console.log(scheduleData);
       res.status(200).json({ message: "Posted Succesfully" });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ message: "Server Error" });
     }
   },
 
-  // api to get the scheduled class details in student
   getScheduledClass: async (req, res) => {
     const { _id } = req.params.id;
     const ScheduledClass = await ScheduleSchema.find({
@@ -70,7 +63,6 @@ module.exports = {
     }
   },
 
-  // delete api
   deleteClass: async (req, res) => {
     const { _id } = req.params.id;
     const deleteApi = await ScheduleSchema.deleteOne({
@@ -83,27 +75,38 @@ module.exports = {
       }
       res.status(200).json({ message: "Succesfully Deleted" });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ message: "Server Error" });
     }
   },
 
-  // api to download pdf
   downloadPdf: async (req, res) => {
     try {
       const cert = await certificate.findById(req.params.id);
       if (!cert) {
-        return res.status(404).send('Certificate not found');
+        return res.status(404).send("Certificate not found");
       }
-      const filePath = path.join(__dirname, '../uploads/', cert.certificate);
-      res.download(filePath, cert.title + '.pdf');
+      const filePath = path.join(__dirname, "../uploads/", cert.certificate);
+      res.download(filePath, cert.title + ".pdf");
     } catch (err) {
       console.error(err);
-      res.status(500).send('Server error');
+      res.status(500).send("Server error");
     }
   },
 
-  // api to update status of schedule class to history class
+  viewClassPdf: async (req, res) => {
+    try {
+      const course = await ScheduleSchema.findById(req.params.id);
+      if (!course) {
+        return res.status(404).send("course notes not found");
+      }
+      const filePath = path.join(__dirname, "../uploads/", course.pdfName);
+      res.download(filePath, course.title + ".pdf");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Server error");
+    }
+  },
+
   updateStatus: async (req, res) => {
     const { _id } = req.params.id;
     const { status } = req.body;
@@ -157,10 +160,8 @@ module.exports = {
       res.status(200).json({ message: "Posted Succesfully" });
     } catch (err) {
       res.status(500).json({ message: "Server Error" });
-      console.log(err);
     }
   },
-
 
   getAllPost: async (req, res) => {
     const { _id } = req.params.id;
@@ -173,7 +174,6 @@ module.exports = {
       res.status(200).json({ message: "Post Found", posts });
     } catch (err) {
       res.status(500).json({ message: "Server Error" });
-      console.log(err);
     }
   },
 
@@ -189,33 +189,27 @@ module.exports = {
       }
       res.status(200).json({ message: "Post Deleted" });
     } catch (err) {
-      console.log(err);
       res.status(500).json({ message: "Server Error" });
     }
   },
 
   uploadCertificate: async (req, res) => {
-    const { studentId, title } = req.body
+    const { studentId, title } = req.body;
 
     try {
-      const addCertificate = await certificate.create(
-        {
-          title: title,
-          studentId: studentId,
-          certificate: req.file ? req.file.filename : null,
-        }
-      )
+      const addCertificate = await certificate.create({
+        title: title,
+        studentId: studentId,
+        certificate: req.file ? req.file.filename : null,
+      });
 
       if (!addCertificate) {
         res.status(400).json({ message: "Certificate adding failed" });
-      }
-      else {
+      } else {
         res.status(200).json({ message: "Certificate added Succesfully" });
       }
-    }
-    catch (err) {
-      console.log(err);
+    } catch (err) {
       res.status(500).json({ message: "Server Error" });
     }
-  }
+  },
 };

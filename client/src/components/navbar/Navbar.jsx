@@ -31,9 +31,9 @@ function DrawerAppBar(props) {
     textDecoration: "none",
     backgroundColor: "#FFB4B4",
     borderRadius: ".4rem",
-    minWidth: '4rem',
-    padding: '0.1rem',
-    fontColor: '#7f18c8'
+    minWidth: "4rem",
+    padding: "0.1rem",
+    color: "#7f18c8",
   };
 
   let nonActiveStyle = {
@@ -69,9 +69,9 @@ function DrawerAppBar(props) {
       link: "/student/certificate",
     },
     {
-      title: 'Chat',
-      link: '/chat'
-    }
+      title: "Chat",
+      link: "/chat",
+    },
   ];
 
   const publicNavItems = [
@@ -92,9 +92,9 @@ function DrawerAppBar(props) {
       link: "/public/certificateUpload",
     },
     {
-      title: 'Chat',
-      link: '/chat'
-    }
+      title: "Chat",
+      link: "/chat",
+    },
   ];
 
   const adminNavItems = [
@@ -115,9 +115,9 @@ function DrawerAppBar(props) {
       link: "/admin/adminPosts",
     },
     {
-      title: 'Chat',
-      link: '/chat'
-    }
+      title: "Chat",
+      link: "/chat",
+    },
   ];
 
   // get student profile detail
@@ -202,33 +202,85 @@ function DrawerAppBar(props) {
           </Button>
 
           <Box sx={{ mt: 3 }}>
-
-            {
-              silver &&
+            {silver && (
               <>
-                <img src="https://img.freepik.com/premium-vector/silver-award-sport-medal-winners-with-blue-ribbon-second-place-trophy-honor-badges_599062-3662.jpg?w=2000" alt="silver" style={{ height: '7rem', marginBottom: '-1rem' }} />
-                <Typography variant="h6" color="secondary" sx={{ mb: '-0.2rem' }}>Silver</Typography>
-                <Typography variant="body1" color="secondary" sx={{ fontWeight: 600, mb: '-0.6rem' }}>Current Level</Typography>
-                <Typography variant="caption" color="secondary" sx={{ fontWeight: 400 }}>Earn more certificates to level up</Typography>
+                <img
+                  src="https://img.freepik.com/premium-vector/silver-award-sport-medal-winners-with-blue-ribbon-second-place-trophy-honor-badges_599062-3662.jpg?w=2000"
+                  alt="silver"
+                  style={{ height: "7rem", marginBottom: "-1rem" }}
+                />
+                <Typography
+                  variant="h6"
+                  color="secondary"
+                  sx={{ mb: "-0.2rem" }}
+                >
+                  Silver
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="secondary"
+                  sx={{ fontWeight: 600, mb: "-0.6rem" }}
+                >
+                  Current Level
+                </Typography>
+                <Typography
+                  variant="caption"
+                  color="secondary"
+                  sx={{ fontWeight: 400 }}
+                >
+                  Earn more certificates to level up
+                </Typography>
               </>
-            }
-            {
-              gold &&
+            )}
+            {gold && (
               <>
-                <img src="https://media.istockphoto.com/id/1211348683/vector/golden-stamp-with-ribbons-isolated-on-white-background-luxury-seal-vector-design-element.jpg?s=612x612&w=0&k=20&c=rRHj-d95GYW8ReJ7aUOxkHtr5ooX83NU9haax-devn4=" alt="gold" style={{ height: '6rem', marginBottom: '-0.8rem' }} />
-                <Typography variant="h6" color="secondary" sx={{ mb: '-0.6rem' }}>Gold</Typography>
-                <Typography variant="body1" color="secondary" sx={{ fontWeight: 600, mb: '-0.6rem' }}>Current Level</Typography>
-                <Typography variant="caption" color="secondary" sx={{ fontWeight: 400 }}>Earn more certificates to level up</Typography>
+                <img
+                  src="https://media.istockphoto.com/id/1211348683/vector/golden-stamp-with-ribbons-isolated-on-white-background-luxury-seal-vector-design-element.jpg?s=612x612&w=0&k=20&c=rRHj-d95GYW8ReJ7aUOxkHtr5ooX83NU9haax-devn4="
+                  alt="gold"
+                  style={{ height: "6rem", marginBottom: "-0.8rem" }}
+                />
+                <Typography
+                  variant="h6"
+                  color="secondary"
+                  sx={{ mb: "-0.6rem" }}
+                >
+                  Gold
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="secondary"
+                  sx={{ fontWeight: 600, mb: "-0.6rem" }}
+                >
+                  Current Level
+                </Typography>
+                <Typography
+                  variant="caption"
+                  color="secondary"
+                  sx={{ fontWeight: 400 }}
+                >
+                  Earn more certificates to level up
+                </Typography>
               </>
-            }
-            {
-              daimond &&
+            )}
+            {daimond && (
               <>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCbgBcfvDLbkmw55P0_zg5ArxwsVdxwC4A4w&usqp=CAU" alt="gold" style={{ height: '6rem' }} />
-                <Typography variant="body1" color="secondary" sx={{ fontWeight: 600 }}>Prime Level</Typography>
-                <Typography variant="h6" color="secondary">Daimond</Typography>
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCbgBcfvDLbkmw55P0_zg5ArxwsVdxwC4A4w&usqp=CAU"
+                  alt="gold"
+                  style={{ height: "6rem" }}
+                />
+                <Typography
+                  variant="body1"
+                  color="secondary"
+                  sx={{ fontWeight: 600 }}
+                >
+                  Prime Level
+                </Typography>
+                <Typography variant="h6" color="secondary">
+                  Daimond
+                </Typography>
               </>
-            }
+            )}
           </Box>
         </>
       )}
@@ -236,7 +288,10 @@ function DrawerAppBar(props) {
         <List>
           {adminNavItems.map((item, val) => (
             <ListItem key={val} disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }} onClick={() => navigate(item.link)}>
+              <ListItemButton
+                sx={{ textAlign: "center" }}
+                onClick={() => navigate(item.link)}
+              >
                 <ListItemText primary={item.title} />
               </ListItemButton>
             </ListItem>
@@ -244,18 +299,20 @@ function DrawerAppBar(props) {
         </List>
       )}
 
-      {
-        role === 'public' &&
+      {role === "public" && (
         <List>
           {publicNavItems.map((item, val) => (
             <ListItem key={val} disablePadding>
-              <ListItemButton sx={{ textAlign: "center" }} onClick={() => navigate(item.link)}>
+              <ListItemButton
+                sx={{ textAlign: "center" }}
+                onClick={() => navigate(item.link)}
+              >
                 <ListItemText primary={item.title} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-      }
+      )}
 
       {/* profile ui while student Login */}
     </Box>
@@ -271,8 +328,7 @@ function DrawerAppBar(props) {
       {/* <CssBaseline /> */}
       <AppBar component="nav" sx={{ mb: 3 }}>
         <Toolbar>
-          {
-            isAuthenticated &&
+          {isAuthenticated && (
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -287,14 +343,17 @@ function DrawerAppBar(props) {
             >
               <MenuIcon />
             </IconButton>
-          }
+          )}
 
           {!isAuthenticated && (
             <Typography
               variant="h6"
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600, cursor: 'pointer' } }}
-              onClick={() => navigate('/')}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "block", fontWeight: 600, cursor: "pointer" },
+              }}
+              onClick={() => navigate("/")}
             >
               HIVE
             </Typography>
@@ -304,45 +363,48 @@ function DrawerAppBar(props) {
             <Typography
               variant="h6"
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600, cursor: 'pointer' } }}
-              onClick={() => navigate('/admin')}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "block", fontWeight: 600, cursor: "pointer" },
+              }}
+              onClick={() => navigate("/admin")}
             >
               HIVE
             </Typography>
           )}
 
-          {
-            role === 'public' &&
+          {role === "public" && (
             <Typography
               variant="h6"
               component="div"
               sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600 } }}
-              onClick={() => navigate('/public')}
+              onClick={() => navigate("/public")}
             >
               HIVE
             </Typography>
-          }
+          )}
 
-          {
-            role === 'student' &&
+          {role === "student" && (
             <Typography
               variant="h6"
               component="div"
               sx={{ flexGrow: 1, display: { xs: "block", fontWeight: 600 } }}
-              onClick={() => navigate('/student')}
+              onClick={() => navigate("/student")}
             >
               HIVE
             </Typography>
-          }
+          )}
 
-          {
-            isAuthenticated &&
+          {isAuthenticated && (
             <Box sx={{ display: { xs: "none", lg: "block" } }}>
-              <Typography variant="subtitle1 " color="white" sx={{ mr: '20rem' }}>
-                Welcome, {userName}
+              <Typography
+                color="white"
+                sx={{ mr: "20rem", fontSize: "1rem", fontWeight: "500" }}
+              >
+                Welcome {userName}
               </Typography>
             </Box>
-          }
+          )}
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {/* navbar for students */}
@@ -399,7 +461,7 @@ function DrawerAppBar(props) {
               <Button
                 startIcon={<LogoutIcon />}
                 onClick={handleLogout}
-                sx={{ color: "#fff", ml: 4, }}
+                sx={{ color: "#fff", ml: 4 }}
               >
                 Logout
               </Button>
@@ -427,7 +489,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </Box>
-    </Box >
+    </Box>
   );
 }
 
