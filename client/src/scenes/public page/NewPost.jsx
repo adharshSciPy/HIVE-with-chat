@@ -224,6 +224,7 @@ export default function NewPost() {
                   />
                 )}
                 size="small"
+                minDate={new Date()}
               />
             </LocalizationProvider>
 

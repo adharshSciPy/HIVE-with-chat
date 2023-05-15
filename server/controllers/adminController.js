@@ -105,6 +105,29 @@ module.exports = {
       res.status(500).json({ message: 'Server Error' })
     }
 
-  }
+  },
 
+  deleteStudent: async (req, res) => {
+    const { _id } = req.params.id;
+    const deleteApi = await UserSchema.deleteOne({
+      _id: req.params.id,
+    });
+
+    if (!deleteApi) {
+      res.status(400).json({ message: "Student deletion failed" });
+    }
+    res.status(200).json({ message: "Delete Succesfull" });
+  },
+
+  deletePublic: async (req, res) => {
+    const { _id } = req.params.id;
+    const deleteApi = await UserSchema.deleteOne({
+      _id: req.params.id,
+    });
+
+    if (!deleteApi) {
+      res.status(400).json({ message: "Public deletion failed" });
+    }
+    res.status(200).json({ message: "Delete Succesfull" });
+  }
 }

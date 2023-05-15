@@ -123,6 +123,7 @@ function ClassShedule() {
                       />
                     )}
                     size="small"
+                    minDate={new Date()}
                   />
                 </LocalizationProvider>
 
